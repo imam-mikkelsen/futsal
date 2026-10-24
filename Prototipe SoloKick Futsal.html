@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#123c32">
+<title>SoloKick Futsal | Main Lebih Gampang</title>
+<style>
+:root {
+  --site-primary: #123C32;
+  --site-on-primary: #FFFFFF;
+  --site-secondary: #F2B84B;
+  --site-on-secondary: #202820;
+  --site-background: #F5F4EE;
+  --site-on-background: #18241F;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#FFFFFF, #1C2924);
+  --surface-soft: light-dark(#E8EDE6, #24352E);
+  --muted: light-dark(#5D6B63, #B3C1B8);
+  --border: light-dark(#D8DED6, #3B4B43);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; color-scheme: light dark; }
+body { margin: 0; background: var(--site-background); color: var(--site-on-background); font-family: var(--site-font-body); }
+#app { min-height: 100vh; width: 100%; border-radius: 0; overflow: hidden; background-color: var(--site-background); color: var(--site-on-background); }
+a { color: inherit; }
+.wrap { width: min(1100px, calc(100% - 36px)); margin: 0 auto; }
+header { background: var(--site-primary); color: var(--site-on-primary); }
+.nav { display:flex; justify-content:space-between; align-items:center; gap:18px; padding: calc(18px * var(--site-spacing-scale)) 0; }
+.brand { display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:-.04em; font-size:1.1rem; }
+.brand-mark { width:38px; height:38px; display:grid; place-items:center; border-radius:12px; background:var(--site-secondary); color:var(--site-on-secondary); font-weight:1000; }
+.nav a { text-decoration:none; font-size:.9rem; font-weight:750; }
+.nav-links { display:flex; align-items:center; gap:22px; }
+.nav-cta { background:var(--site-secondary); color:var(--site-on-secondary); padding:11px 15px; border-radius:999px; }
+.hero { background:var(--site-primary); color:var(--site-on-primary); position:relative; overflow:hidden; }
+.hero-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center; padding: clamp(42px, 7vw, 82px) 0 76px; }
+.kicker { color:var(--site-secondary); font-size:.78rem; font-weight:900; letter-spacing:.15em; text-transform:uppercase; }
+h1,h2,h3,p { margin-top:0; }
+h1 { font-family:var(--site-font-heading); font-size:clamp(2.55rem, 6vw, 4.9rem); line-height:.98; letter-spacing:-.065em; margin:17px 0 22px; max-width:650px; }
+h2 { font-size:calc(clamp(1.8rem, 4vw, 2.7rem) * var(--site-heading-scale)); letter-spacing:-.05em; line-height:1.08; margin-bottom:12px; }
+h3 { letter-spacing:-.025em; margin-bottom:8px; }
+.hero p { color:#D8E5DC; line-height:1.7; max-width:540px; }
+.actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:25px; }
+.btn { display:inline-flex; justify-content:center; align-items:center; border:0; border-radius:999px; padding:14px 19px; font:inherit; font-weight:850; text-decoration:none; cursor:pointer; transition:transform .15s ease, opacity .15s ease; }
+.btn:hover { transform:translateY(-2px); }
+.btn-primary { background:var(--site-secondary); color:var(--site-on-secondary); }
+.btn-outline { border:1px solid #6B8A7D; color:white; background:transparent; }
+.pitch-card { position:relative; background:#1C5143; border:1px solid #467364; border-radius:26px; padding:22px; min-height:290px; display:flex; flex-direction:column; justify-content:space-between; overflow:hidden; }
+.pitch-card::after { content:""; position:absolute; width:220px; height:220px; border:34px solid var(--site-secondary); border-radius:50%; right:-80px; top:-75px; opacity:calc(.14 * var(--site-decoration-opacity)); }
+.pitch-top { display:flex; justify-content:space-between; gap:10px; color:#D9E8DF; font-size:.8rem; font-weight:750; }
+.pitch-number { font-size:clamp(3.5rem, 8vw, 5.5rem); font-weight:1000; letter-spacing:-.09em; line-height:1; position:relative; z-index:1; }
+.pitch-number span { color:var(--site-secondary); }
+.pitch-bottom { display:flex; justify-content:space-between; align-items:end; gap:12px; color:#D9E8DF; font-size:.9rem; }
+.pitch-ball { font-size:2.5rem; }
+.trust-strip { background:var(--site-secondary); color:var(--site-on-secondary); }
+.trust-inner { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; padding:18px 0; text-align:center; font-size:.9rem; font-weight:850; }
+section { padding: clamp(48px, 7vw, 78px) 0; }
+.section-head { display:flex; justify-content:space-between; align-items:end; gap:22px; margin-bottom:26px; }
+.section-head p { color:var(--muted); max-width:460px; line-height:1.65; margin-bottom:0; }
+.eyebrow { color:#537563; text-transform:uppercase; letter-spacing:.13em; font-size:.76rem; font-weight:900; margin-bottom:10px; }
+.cards { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:calc(20px * var(--site-radius-scale)); padding:22px; display:flex; flex-direction:column; min-height:230px; }
+.card-icon { width:46px; height:46px; display:grid; place-items:center; border-radius:14px; background:var(--surface-soft); font-size:1.4rem; margin-bottom:17px; }
+.card p { color:var(--muted); line-height:1.6; font-size:.93rem; margin-bottom:18px; }
+.price { margin-top:auto; font-size:1.25rem; font-weight:950; letter-spacing:-.03em; }
+.price small { font-size:.78rem; color:var(--muted); font-weight:650; letter-spacing:0; }
+.note { color:var(--muted); font-size:.82rem; line-height:1.55; margin-top:18px; }
+.soft-section { background:var(--surface-soft); }
+.feature-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:15px; }
+.feature { display:flex; gap:14px; background:var(--surface); border:1px solid var(--border); padding:19px; border-radius:18px; }
+.feature-icon { flex:0 0 42px; height:42px; display:grid; place-items:center; border-radius:13px; background:var(--site-primary); color:white; font-size:1.15rem; }
+.feature p { color:var(--muted); margin-bottom:0; line-height:1.55; font-size:.92rem; }
+.booking-grid { display:grid; grid-template-columns:.8fr 1.2fr; gap:34px; align-items:start; }
+.booking-copy { background:var(--site-primary); color:white; border-radius:24px; padding:27px; }
+.booking-copy p { color:#D6E4DB; line-height:1.65; }
+.booking-copy ul { padding-left:20px; color:#D6E4DB; line-height:1.9; }
+.form-card { background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:26px; }
+.form-card > p { color:var(--muted); line-height:1.6; }
+form { display:grid; grid-template-columns:1fr 1fr; gap:15px; }
+.field { display:flex; flex-direction:column; gap:7px; }
+.field.full { grid-column:1 / -1; }
+label { font-size:.86rem; font-weight:800; }
+input, select, textarea { width:100%; padding:13px 14px; border:1px solid var(--border); border-radius:12px; background:var(--site-background); color:var(--site-on-background); font:inherit; outline-offset:3px; }
+input:focus, select:focus, textarea:focus { outline:2px solid var(--site-secondary); }
+.form-card .btn { width:100%; }
+.form-status { display:none; border-radius:12px; padding:14px; margin-top:14px; background:var(--surface-soft); line-height:1.5; font-size:.9rem; }
+.form-status.show { display:block; }
+.form-disclaimer { font-size:.78rem !important; margin-top:12px; color:var(--muted); }
+footer { background:var(--site-primary); color:white; padding:30px 0; }
+.footer-inner { display:flex; justify-content:space-between; align-items:center; gap:20px; }
+footer p { color:#C5D7CC; margin:6px 0 0; font-size:.85rem; }
+.footer-tag { color:var(--site-secondary); font-weight:900; font-size:.83rem; }
+@media (max-width:760px) {
+ .wrap { width:min(100% - 28px, 600px); }
+ .nav-links a:not(.nav-cta):not(.nav-results) { display:none; }
+ .hero-grid { grid-template-columns:1fr; gap:28px; padding-top:45px; padding-bottom:45px; }
+ .pitch-card { min-height:230px; }
+ .trust-inner { grid-template-columns:1fr; gap:8px; text-align:left; padding:15px 0; }
+ .section-head { display:block; }
+ .section-head p { margin-top:10px; }
+ .cards { grid-template-columns:1fr; }
+ .card { min-height:0; }
+ .feature-grid { grid-template-columns:1fr; }
+ .booking-grid { grid-template-columns:1fr; }
+ form { grid-template-columns:1fr; }
+ .field.full { grid-column:auto; }
+ .footer-inner { display:block; }
+ .footer-tag { display:block; margin-top:18px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition:none !important; } }
+</style>
+</head>
+<body>
+<div id="app">
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#beranda" aria-label="SoloKick Futsal beranda"><span class="brand-mark">SK</span><span>SoloKick Futsal</span></a>
+    <nav class="nav-links" aria-label="Navigasi utama"><a href="#layanan">Layanan</a><a href="#paket">Paket</a><a href="#jadwal">Jadwal Lapangan</a><a href="#keunggulan">Keunggulan</a><a class="nav-cta" href="#minat">Saya Berminat ↗</a><a class="nav-results" href="#hasil-minat">Hasil Uji Minat</a></nav>
+  </div>
+</header>
+<main>
+  <section class="hero" id="beranda" style="padding:0">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="kicker">Main bareng, lebih gampang</div>
+        <h1>Waktunya main. <span style="color:var(--site-secondary)">Biar kami urus sisanya.</span></h1>
+        <p>SoloKick Futsal hadir untuk bikin pengalaman futsal di Surakarta lebih praktis. Cek layanan, lihat harga awal, lalu sampaikan minatmu lewat satu halaman.</p>
+        <div class="actions"><a class="btn btn-primary" href="#layanan">Lihat Layanan & Harga</a><a class="btn btn-outline" href="#minat">Daftar Minat</a></div>
+      </div>
+      <div class="pitch-card" aria-label="Ilustrasi promosi SoloKick Futsal">
+        <div class="pitch-top"><span>SOLOKICK / SURAKARTA</span></div>
+        <div class="pitch-number">PLAY<span>.</span><br>TOGETHER<span>.</span></div>
+        <div class="pitch-bottom"><span>Lapangan • Komunitas • MatchUp</span><span class="pitch-ball">⚽</span></div>
+      </div>
+    </div>
+  </section>
+  <div class="trust-strip"><div class="wrap trust-inner"><span>⚡ Reservasi lebih praktis</span><span>🤝 Cari teman dan lawan main</span><span>🏆 Komunitas aktif dan kompetisi</span></div></div>
+  <section id="layanan">
+    <div class="wrap">
+      <div class="section-head"><div><div class="eyebrow">Layanan SoloKick</div><h2>Pilih cara mainmu.</h2></div><p>Harga berikut merupakan simulasi awal untuk menguji minat calon pelanggan. Harga final akan disesuaikan dengan fasilitas dan hasil survei.</p></div>
+      <div class="cards">
+        <article class="card"><div class="card-icon">⚽</div><h3>Sewa Lapangan</h3><p>Sewa lapangan berdasarkan durasi untuk bermain bersama teman atau latihan tim.</p><div class="price">Rp85.000 <small>/ jam · weekday</small></div><div class="price" style="font-size:1rem;margin-top:5px">Rp110.000 <small>/ jam · malam/akhir pekan</small></div></article>
+        <article class="card"><div class="card-icon">📆</div><h3>Paket Bermain Rutin</h3><p>Paket untuk tim atau komunitas yang ingin bermain terjadwal secara berkala.</p><div class="price">Mulai Rp300.000 <small>/ paket</small></div></article>
+        <article class="card"><div class="card-icon">📸</div><h3>Match Recap</h3><p>Dokumentasi foto atau video singkat untuk menyimpan momen pertandingan.</p><div class="price">Mulai Rp75.000 <small>/ sesi</small></div></article>
+        <article class="card"><div class="card-icon">🤝</div><h3>SoloKick MatchUp</h3><p>Fitur gratis untuk melihat calon lawan main atau mengajukan pertandingan dengan tim lain.</p><div class="price">Gratis <small>/ fitur komunitas</small></div></article>
+        <article class="card"><div class="card-icon">🧊</div><h3>Player Comfort Package</h3><p>Keunggulan fasilitas pendukung seperti isi ulang air minum, area tunggu nyaman, kamar mandi, dan tempat penyimpanan barang.</p><div class="price">Fasilitas pendukung <small>/ bagian dari pengalaman bermain</small></div></article>
+        <article class="card"><div class="card-icon">🏆</div><h3>SoloKick Cup</h3><p>Kompetisi futsal yang direncanakan berlangsung setiap enam bulan untuk tim dan komunitas.</p><div class="price">Biaya pendaftaran <small>akan diumumkan</small></div></article>
+      </div>
+      <p class="note">*Seluruh harga adalah harga simulasi untuk keperluan prototipe dan uji minat, bukan daftar harga resmi. Ketersediaan layanan dan fasilitas akan ditetapkan setelah validasi usaha.</p>
+    </div>
+  </section>
+  <section class="soft-section" id="keunggulan">
+    <div class="wrap">
+      <div class="section-head"><div><div class="eyebrow">Kenapa SoloKick?</div><h2>Bukan cuma sewa lapangan.</h2></div><p>Konsep SoloKick menggabungkan pemesanan yang praktis dengan aktivitas komunitas dan layanan pendukung.</p></div>
+      <div class="feature-grid">
+        <div class="feature"><div class="feature-icon">📱</div><div><h3>Website reservasi terintegrasi</h3><p>Informasi layanan dan harga dalam satu tempat, dengan formulir pemesanan dan akses ke layanan pelanggan.</p></div></div>
+        <div class="feature"><div class="feature-icon">🤝</div><div><h3>SoloKick MatchUp</h3><p>Bukan hanya untuk pemain yang belum punya tim, MatchUp juga membantu tim mencari lawan tanding. Pengguna bisa mengajukan pertandingan atau melihat daftar tim yang bersedia bermain.</p></div></div>
+        <div class="feature"><div class="feature-icon">🎟️</div><div><h3>Program loyalitas</h3><p>Rencana diskon atau bonus jam bermain untuk pelanggan rutin sesuai ketentuan.</p></div></div>
+        <div class="feature"><div class="feature-icon">🏆</div><div><h3>Komunitas dan kompetisi</h3><p>SoloKick Cup direncanakan setiap enam bulan untuk mempertemukan tim dan komunitas futsal.</p></div></div>
+      </div>
+    </div>
+  </section>
+  <section id="paket">
+    <div class="wrap">
+      <div class="section-head"><div><div class="eyebrow">Paket bermain</div><h2>Pilih paket yang cocok.</h2></div><p>Lebih hemat untuk tim yang rutin bermain, dengan pilihan paket standar hingga paket plus dokumentasi. Pilih paket untuk mengisi minat pada formulir.</p></div>
+      <div class="cards">
+        <article class="card"><div class="card-icon">⚽</div><h3>Team Starter</h3><p>Untuk tim yang ingin bermain rutin 4 kali dalam sebulan dengan jadwal yang disepakati di awal.</p><div class="price">Rp320.000 <small>/ 4 sesi · 1 jam per sesi</small></div><button class="btn btn-primary package-select" type="button" data-package="Team Starter — 4 sesi per bulan, 1 jam per sesi">Pilih Paket</button></article>
+        <article class="card"><div class="card-icon">📆</div><h3>Team Regular</h3><p>Pilihan untuk komunitas yang ingin menjaga jadwal latihan mingguan secara konsisten.</p><div class="price">Rp600.000 <small>/ 4 sesi · 2 jam per sesi</small></div><button class="btn btn-primary package-select" type="button" data-package="Team Regular — 4 sesi per bulan, 2 jam per sesi">Pilih Paket</button></article>
+        <article class="card"><div class="card-icon">📸</div><h3>Team Plus Documentation</h3><p>Paket bermain rutin untuk tim yang ingin mengabadikan momen pertandingan dengan dokumentasi foto dan video singkat.</p><div class="price">Rp750.000 <small>/ 4 sesi · 2 jam per sesi + dokumentasi 1 sesi</small></div><button class="btn btn-primary package-select" type="button" data-package="Team Plus Documentation — 4 sesi per bulan, 2 jam per sesi, dokumentasi 1 sesi">Pilih Paket</button></article>
+        <article class="card"><div class="card-icon">🏆</div><h3>Club Commitment</h3><p>Untuk tim yang ingin latihan lebih intensif dengan 8 sesi terjadwal setiap bulan.</p><div class="price">Rp1.150.000 <small>/ 8 sesi · 2 jam per sesi</small></div><button class="btn btn-primary package-select" type="button" data-package="Club Commitment — 8 sesi per bulan, 2 jam per sesi">Pilih Paket</button></article>
+        <article class="card"><div class="card-icon">🎥</div><h3>Club Plus Documentation</h3><p>Paket intensif untuk tim yang ingin bermain rutin sekaligus mendapatkan dokumentasi foto dan video singkat.</p><div class="price">Rp1.350.000 <small>/ 8 sesi · 2 jam per sesi + dokumentasi 2 sesi</small></div><button class="btn btn-primary package-select" type="button" data-package="Club Plus Documentation — 8 sesi per bulan, 2 jam per sesi, dokumentasi 2 sesi">Pilih Paket</button></article>
+        <article class="card"><div class="card-icon">🤝</div><h3>Community Custom</h3><p>Untuk komunitas atau organisasi yang membutuhkan jumlah sesi dan jadwal khusus sesuai kebutuhan.</p><div class="price">Sesuai kebutuhan <small>/ paket bulanan</small></div><button class="btn btn-primary package-select" type="button" data-package="Community Custom — paket bulanan dengan sesi dan jadwal khusus">Pilih Paket</button></article>
+      </div>
+      <p class="note">Harga dan isi paket merupakan estimasi awal untuk uji minat. Paket rutin berlaku untuk jadwal yang disepakati di awal; detail fasilitas dan dokumentasi dapat disesuaikan.</p>
+    </div>
+  </section>
+  <section class="soft-section" id="jadwal">
+    <div class="wrap">
+      <div class="section-head"><div><div class="eyebrow">Jadwal lapangan</div><h2>Cek slot waktu.</h2></div><p>Pilih hari dan lihat slot waktu yang tersedia untuk bermain.</p></div>
+      <div class="schedule-tools"><label for="scheduleDay">Pilih hari</label><select id="scheduleDay"><option value="2026-10-26">Senin, 26 Oktober 2026</option><option value="2026-10-27">Selasa, 27 Oktober 2026</option><option value="2026-10-28">Rabu, 28 Oktober 2026</option><option value="2026-10-29">Kamis, 29 Oktober 2026</option><option value="2026-10-30">Jumat, 30 Oktober 2026</option><option value="2026-10-31">Sabtu, 31 Oktober 2026</option><option value="2026-11-01">Minggu, 1 November 2026</option></select><span class="schedule-legend"><span class="dot available"></span> Kosong <span class="dot booked"></span> Penuh</span></div>
+      <div class="schedule-grid" id="scheduleGrid" aria-live="polite"></div>
+    </div>
+  </section>
+  <section id="matchup">
+    <div class="wrap">
+      <div class="section-head"><div><div class="eyebrow">SoloKick MatchUp</div><h2>Cari tim atau cari lawan.</h2></div><p>Pilih kebutuhanmu: gabung bermain karena belum punya tim lengkap, atau ajukan pertandingan untuk mencari lawan tanding. Daftar di bawah adalah contoh data untuk prototipe.</p></div>
+      <div class="matchup-grid">
+        <article class="card matchup-action"><div class="card-icon">🧩</div><h3>Belum punya tim lengkap?</h3><p>Sampaikan minat untuk bergabung dengan sesi bermain dan temukan pemain lain yang juga ingin bermain.</p><button class="btn btn-primary matchup-select" type="button" data-purpose="Mencari tim / pemain untuk bergabung">Cari Tim</button></article>
+        <article class="card matchup-action"><div class="card-icon">⚔️</div><h3>Sudah punya tim?</h3><p>Ajukan pertandingan dengan mengisi nama tim, level permainan, dan waktu yang diinginkan agar tim lain bisa melihat pengajuanmu.</p><button class="btn btn-primary matchup-select" type="button" data-purpose="Mengajukan pertandingan untuk mencari lawan">Ajukan Tanding</button></article>
+      </div>
+      <div class="matchup-board">
+        <div class="matchup-board-head"><div><div class="eyebrow">Papan MatchUp</div><h3>Tim yang bersedia tanding</h3></div></div>
+        <div class="matchup-list" id="matchupList" aria-live="polite">
+          <article class="matchup-row"><div><strong>Solo United</strong><span>Level menengah · 5v5</span><small>Ingin tanding: akhir pekan · sore</small></div><span class="matchup-open">Terbuka</span><button class="btn btn-outline matchup-contact" type="button" data-team="Solo United">Ajukan Tanding</button></article>
+          <article class="matchup-row"><div><strong>Campus Kickers</strong><span>Level pemula–menengah · 5v5</span><small>Ingin tanding: hari kerja · malam</small></div><span class="matchup-open">Terbuka</span><button class="btn btn-outline matchup-contact" type="button" data-team="Campus Kickers">Ajukan Tanding</button></article>
+          <article class="matchup-row"><div><strong>Laweyan FC</strong><span>Level menengah · 5v5</span><small>Ingin tanding: fleksibel sesuai kesepakatan</small></div><span class="matchup-open">Terbuka</span><button class="btn btn-outline matchup-contact" type="button" data-team="Laweyan FC">Ajukan Tanding</button></article>
+        </div>
+      </div>
+      <div class="form-card matchup-form-card" id="matchupFormCard">
+        <h3>Formulir MatchUp</h3><p>Isi detail awal agar minat bergabung atau pengajuan tanding bisa disiapkan.</p>
+        <form id="matchupForm">
+          <div class="field"><label for="matchupName">Nama kontak</label><input id="matchupName" name="matchupName" placeholder="Nama kamu" required></div>
+          <div class="field"><label for="matchupTeam">Nama tim (jika ada)</label><input id="matchupTeam" name="matchupTeam" placeholder="Nama tim kamu"></div>
+          <div class="field"><label for="matchupPurpose">Kebutuhan</label><select id="matchupPurpose" name="matchupPurpose" required><option value="">Pilih kebutuhan</option><option>Mencari tim / pemain untuk bergabung</option><option>Mengajukan pertandingan untuk mencari lawan</option></select></div>
+          <div class="field"><label for="matchupLevel">Level permainan</label><select id="matchupLevel" name="matchupLevel" required><option value="">Pilih level</option><option>Pemula</option><option>Menengah</option><option>Kompetitif</option><option>Campuran / fleksibel</option></select></div>
+          <div class="field"><label for="matchupFormat">Format tim</label><select id="matchupFormat" name="matchupFormat" required><option value="">Pilih format</option><option>5v5</option><option>Fleksibel sesuai pemain</option></select></div>
+          <div class="field"><label for="matchupTime">Waktu yang diinginkan</label><select id="matchupTime" name="matchupTime" required><option value="">Pilih waktu</option><option>Hari kerja · sore</option><option>Hari kerja · malam</option><option>Akhir pekan · pagi/siang</option><option>Akhir pekan · sore/malam</option><option>Fleksibel</option></select></div>
+          <div class="field full"><label for="matchupNotes">Catatan tambahan (opsional)</label><textarea id="matchupNotes" name="matchupNotes" rows="3" placeholder="Contoh: mencari lawan dengan level seimbang"></textarea></div>
+          <div class="field full"><button class="btn btn-primary" type="submit">Siapkan Pengajuan MatchUp ↗</button></div>
+        </form>
+        <div class="form-status" id="matchupStatus" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+  <section id="minat">
+    <div class="wrap booking-grid">
+      <div class="booking-copy"><div class="kicker">Bantu kami berkembang</div><h2 style="margin-top:12px">Tertarik main di SoloKick?</h2><p>Isi formulir singkat ini untuk menunjukkan layanan yang paling kamu minati. Masukanmu membantu kami menilai kebutuhan pemain futsal di Surakarta.</p><ul><li>Pilih layanan yang kamu butuhkan</li><li>Sampaikan kisaran harga yang sesuai</li><li>Berikan saran untuk SoloKick Futsal</li></ul></div>
+      <div class="form-card">
+        <h2 style="font-size:1.8rem">Saya Berminat</h2>
+        <p>Isi data berikut sebagai respons minat awal.</p>
+        <form id="interestForm">
+          <div class="field"><label for="name">Nama</label><input id="name" name="name" autocomplete="name" placeholder="Nama kamu" required></div>
+          <div class="field"><label for="role">Kamu adalah</label><select id="role" name="role" required><option value="">Pilih salah satu</option><option>Pelajar / mahasiswa</option><option>Pekerja</option><option>Anggota komunitas / tim</option><option>Perwakilan sekolah / organisasi</option><option>Lainnya</option></select></div>
+          <div class="field full"><label for="service">Layanan atau fitur yang paling diminati</label><select id="service" name="service" required><option value="">Pilih layanan</option><option>Sewa lapangan</option><option>Paket bermain rutin</option><option>Match Recap</option><option>SoloKick MatchUp (gratis)</option><option>Fasilitas pendukung Player Comfort</option><option>SoloKick Cup</option><option>Team Starter — 4 sesi per bulan, 1 jam per sesi</option><option>Team Regular — 4 sesi per bulan, 2 jam per sesi</option><option>Team Plus Documentation — 4 sesi per bulan, 2 jam per sesi, dokumentasi 1 sesi</option><option>Club Commitment — 8 sesi per bulan, 2 jam per sesi</option><option>Club Plus Documentation — 8 sesi per bulan, 2 jam per sesi, dokumentasi 2 sesi</option><option>Community Custom — paket bulanan dengan sesi dan jadwal khusus</option></select></div>
+          <div class="field full"><label for="preferredSlot">Slot jadwal yang diminati (opsional)</label><input id="preferredSlot" name="preferredSlot" placeholder="Pilih slot dari bagian Jadwal Lapangan"></div>
+          <div class="field"><label for="price">Harga sewa per jam yang cocok</label><select id="price" name="price" required><option value="">Pilih kisaran</option><option>Di bawah Rp80.000</option><option>Rp80.000–Rp99.000</option><option>Rp100.000–Rp120.000</option><option>Di atas Rp120.000</option></select></div>
+          <div class="field"><label for="frequency">Frekuensi bermain</label><select id="frequency" name="frequency" required><option value="">Pilih frekuensi</option><option>Beberapa kali seminggu</option><option>Seminggu sekali</option><option>2–3 kali sebulan</option><option>Sebulan sekali atau kurang</option></select></div>
+          <div class="field full"><label for="feedback">Saran atau hal yang penting buat kamu (opsional)</label><textarea id="feedback" name="feedback" rows="3" placeholder="Misalnya lokasi, fasilitas, atau jadwal yang diinginkan"></textarea></div>
+          <div class="field full"><button class="btn btn-primary" type="submit">Kirim Minat Saya ↗</button></div>
+        </form>
+        <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+  <section class="soft-section" id="hasil-minat" hidden>
+    <div class="wrap">
+      <div class="section-head"><div><div class="eyebrow">Ringkasan respons</div><h2>Hasil Uji Minat</h2></div><p>Pantau respons, layanan yang paling diminati, dan preferensi calon pelanggan.</p></div>
+      <div class="dashboard-stats">
+        <article class="dashboard-stat"><span>Total respons</span><strong id="resultTotal">0</strong><small>Respons masuk</small></article>
+        <article class="dashboard-stat"><span>Layanan paling diminati</span><strong id="resultTopService">—</strong><small id="resultTopServiceCount">Belum ada respons</small></article>
+        <article class="dashboard-stat"><span>Kisaran harga terbanyak</span><strong id="resultTopPrice">—</strong><small id="resultTopPriceCount">Belum ada respons</small></article>
+        <article class="dashboard-stat"><span>Frekuensi terbanyak</span><strong id="resultTopFrequency">—</strong><small id="resultTopFrequencyCount">Belum ada respons</small></article>
+      </div>
+      <div class="dashboard-panel response-panel"><div class="matchup-board-head"><div><div class="eyebrow">Daftar jawaban</div><h3>Respons yang tersimpan</h3></div><button class="btn btn-outline" id="clearResponses" type="button">Hapus respons</button></div>
+        <div class="response-table-wrap"><table class="response-table"><thead><tr><th>Nama</th><th>Layanan</th><th>Harga pilihan</th><th>Frekuensi</th><th>Saran</th></tr></thead><tbody id="responseRows"><tr><td colspan="5">Belum ada respons. Isi formulir minat untuk melihat hasilnya.</td></tr></tbody></table></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap footer-inner"><div><div class="brand"><span class="brand-mark">SK</span><span>SoloKick Futsal</span></div><p>Konsep usaha futsal untuk Kota Surakarta, Jawa Tengah.</p></div><span class="footer-tag">MAIN BARENG. TUMBUH BARENG.</span></div></footer>
+</div>
+<script>
+const form = document.getElementById('interestForm');
+const statusBox = document.getElementById('formStatus');
+const slotInput = document.getElementById('preferredSlot');
+const daySelect = document.getElementById('scheduleDay');
+const scheduleGrid = document.getElementById('scheduleGrid');
+const matchupForm = document.getElementById('matchupForm');
+const matchupStatus = document.getElementById('matchupStatus');
+const localResponsesKey = 'solokick-interest-responses';
+const resultsSection = document.getElementById('hasil-minat');
+document.querySelectorAll('a[href="#hasil-minat"]').forEach(link => link.addEventListener('click', event => {
+  event.preventDefault();
+  resultsSection.hidden = false;
+  document.querySelectorAll('main > section').forEach(section => { if (section !== resultsSection) section.hidden = true; });
+  resultsSection.scrollIntoView({ behavior: 'smooth' });
+}));
+document.querySelectorAll('a[href="#beranda"]').forEach(link => link.addEventListener('click', event => {
+  event.preventDefault();
+  document.querySelectorAll('main > section').forEach(section => { section.hidden = false; });
+  resultsSection.hidden = true;
+  document.getElementById('beranda').scrollIntoView({ behavior: 'smooth' });
+}));
+const slots = ["09.00–10.00", "10.00–11.00", "13.00–14.00", "14.00–15.00", "16.00–17.00", "17.00–18.00", "19.00–20.00", "20.00–21.00"];
+function getLocalResponses() { try { return JSON.parse(localStorage.getItem(localResponsesKey) || '[]'); } catch (e) { return []; } }
+function renderInterestResults() {
+  const responses = getLocalResponses();
+  document.getElementById('resultTotal').textContent = responses.length;
+  const summarize = (key, valueId, countId) => {
+    const counts = {};
+    responses.forEach(item => { const value = item[key] || ''; if (value) counts[value] = (counts[value] || 0) + 1; });
+    const sorted = Object.entries(counts).sort((a,b) => b[1] - a[1]);
+    document.getElementById(valueId).textContent = sorted.length ? sorted[0][0] : '—';
+    document.getElementById(countId).textContent = sorted.length ? sorted[0][1] + ' respons' : 'Belum ada respons';
+  };
+  summarize('service','resultTopService','resultTopServiceCount');
+  summarize('price','resultTopPrice','resultTopPriceCount');
+  summarize('frequency','resultTopFrequency','resultTopFrequencyCount');
+  const tbody = document.getElementById('responseRows');
+  tbody.replaceChildren();
+  if (!responses.length) { const row = tbody.insertRow(); const cell = row.insertCell(); cell.colSpan = 5; cell.textContent = 'Belum ada respons di perangkat ini. Isi formulir minat untuk melihat hasilnya.'; return; }
+  responses.slice().reverse().forEach(item => { const row = tbody.insertRow(); [item.name,item.service,item.price,item.frequency,item.feedback || '—'].forEach(value => { const cell = row.insertCell(); cell.textContent = value || '—'; }); });
+}
+document.getElementById('clearResponses').addEventListener('click', () => { if (confirm('Hapus semua respons yang tersimpan di browser ini?')) { localStorage.removeItem(localResponsesKey); renderInterestResults(); } });
+renderInterestResults();
+resultsSection.hidden = true;
+function renderSchedule() {
+  const day = daySelect.value;
+  const seed = Number(day.replaceAll('-', ''));
+  scheduleGrid.innerHTML = '';
+  slots.forEach((time, i) => {
+    const isTaken = ((seed + i * 7) % 5 === 0) || ((seed + i * 3) % 7 === 0);
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'slot ' + (isTaken ? 'taken' : 'free');
+    button.disabled = isTaken;
+    button.innerHTML = '<strong>' + time + '</strong><span class="status">● ' + (isTaken ? 'Penuh' : 'Kosong') + '</span>';
+    if (!isTaken) button.addEventListener('click', () => {
+      const dayLabel = daySelect.options[daySelect.selectedIndex].text;
+      slotInput.value = dayLabel + ' · ' + time;
+      document.getElementById('service').value = 'Sewa lapangan';
+      document.getElementById('minat').scrollIntoView({ behavior: 'smooth' });
+      slotInput.focus({ preventScroll: true });
+    });
+    scheduleGrid.appendChild(button);
+  });
+}
+daySelect.addEventListener('change', renderSchedule);
+renderSchedule();
+document.querySelectorAll('.package-select').forEach(button => button.addEventListener('click', () => {
+  document.getElementById('service').value = button.dataset.package;
+  document.getElementById('minat').scrollIntoView({ behavior: 'smooth' });
+}));
+document.querySelectorAll('.matchup-select').forEach(button => button.addEventListener('click', () => {
+  document.getElementById('matchupPurpose').value = button.dataset.purpose;
+  document.getElementById('matchupFormCard').scrollIntoView({ behavior: 'smooth' });
+}));
+document.querySelectorAll('.matchup-contact').forEach(button => button.addEventListener('click', () => {
+  document.getElementById('matchupPurpose').value = 'Mengajukan pertandingan untuk mencari lawan';
+  document.getElementById('matchupNotes').value = 'Saya tertarik mengajukan pertandingan melawan ' + button.dataset.team + '. Mohon konfirmasi jika fitur ini sudah aktif.';
+  document.getElementById('matchupFormCard').scrollIntoView({ behavior: 'smooth' });
+}));
+matchupForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  if (!matchupForm.reportValidity()) return;
+  const data = new FormData(matchupForm);
+  const lines = ['PENGAJUAN SOLOKICK MATCHUP', 'Nama kontak: ' + data.get('matchupName'), 'Nama tim: ' + (data.get('matchupTeam') || 'Belum ada / belum diisi'), 'Kebutuhan: ' + data.get('matchupPurpose'), 'Level permainan: ' + data.get('matchupLevel'), 'Format: ' + data.get('matchupFormat'), 'Waktu: ' + data.get('matchupTime'), 'Catatan: ' + (data.get('matchupNotes') || 'Tidak ada')];
+  matchupStatus.classList.add('show');
+  matchupStatus.textContent = 'Pengajuan MatchUp berhasil disiapkan.\n\n' + lines.join('\n');
+  const copyButton = document.createElement('button');
+  copyButton.type = 'button'; copyButton.className = 'btn btn-primary'; copyButton.style.marginTop = '12px'; copyButton.textContent = 'Salin Pengajuan';
+  copyButton.addEventListener('click', async function() { try { await navigator.clipboard.writeText(lines.join('\n')); copyButton.textContent = 'Pengajuan Tersalin ✓'; } catch (e) { copyButton.textContent = 'Silakan salin ringkasan secara manual'; } });
+  matchupStatus.appendChild(document.createElement('br')); matchupStatus.appendChild(copyButton);
+});
+form.addEventListener('submit', function(event) {
+  event.preventDefault();
+  if (!form.reportValidity()) return;
+  const data = new FormData(form);
+  const response = { name: data.get('name'), role: data.get('role'), service: data.get('service'), preferredSlot: data.get('preferredSlot'), price: data.get('price'), frequency: data.get('frequency'), feedback: data.get('feedback'), submittedAt: new Date().toISOString() };
+  try {
+    const responses = getLocalResponses();
+    responses.push(response);
+    localStorage.setItem(localResponsesKey, JSON.stringify(responses));
+    renderInterestResults();
+  } catch (e) {
+    statusBox.classList.add('show');
+    statusBox.textContent = 'Browser tidak mengizinkan penyimpanan lokal. Respons belum dapat ditampilkan di dashboard.';
+    return;
+  }
+  const lines = [
+    'RESPONS MINAT — SOLOKICK FUTSAL',
+    'Nama: ' + data.get('name'),
+    'Kategori: ' + data.get('role'),
+    'Layanan diminati: ' + data.get('service'),
+    'Slot jadwal diminati: ' + (data.get('preferredSlot') || 'Belum dipilih'),
+    'Harga sewa yang cocok: ' + data.get('price'),
+    'Frekuensi bermain: ' + data.get('frequency'),
+    'Saran: ' + (data.get('feedback') || 'Tidak ada')
+  ];
+  statusBox.classList.add('show');
+  statusBox.textContent = 'Terima kasih! Respons berhasil dicatat dan ringkasan hasil uji minat telah diperbarui.\n\n' + lines.join('\n');
+  const copyButton = document.createElement('button');
+  copyButton.type = 'button';
+  copyButton.className = 'btn btn-primary';
+  copyButton.style.marginTop = '12px';
+  copyButton.textContent = 'Salin Ringkasan';
+  copyButton.addEventListener('click', async function() {
+    try {
+      await navigator.clipboard.writeText(lines.join('\n'));
+      copyButton.textContent = 'Ringkasan Tersalin ✓';
+    } catch (e) {
+      copyButton.textContent = 'Silakan salin teks ringkasan secara manual';
+    }
+  });
+  statusBox.appendChild(document.createElement('br'));
+  statusBox.appendChild(copyButton);
+});
+</script>
+<style>
+/* Modern dark sports direction */
+:root {
+  --site-primary: #101410;
+  --site-on-primary: #F5F7F2;
+  --site-secondary: #C7FF38;
+  --site-on-secondary: #11150C;
+  --site-background: #101410;
+  --site-on-background: #F5F7F2;
+  --surface: #191F19;
+  --surface-soft: #202820;
+  --muted: #A4AEA2;
+  --border: #343E32;
+}
+html { color-scheme: dark; }
+body, #app { background: #101410; color: #F5F7F2; }
+header { background: #101410; border-bottom: 1px solid #2A3328; }
+.brand { letter-spacing: -.055em; }
+.brand-mark { border-radius: 11px; background: #C7FF38; color: #101410; box-shadow: 0 0 24px #C7FF3828; }
+.nav-cta { background: #C7FF38; color: #101410; }
+.nav-results { color:#C7FF38; border:1px solid #52683A; padding:10px 12px; border-radius:12px; white-space:nowrap; }
+.hero { background: radial-gradient(ellipse at 78% 40%, #31462A 0%, #172017 36%, #101410 72%); }
+.hero-grid { padding-top: clamp(52px, 8vw, 100px); padding-bottom: clamp(54px, 8vw, 92px); }
+.kicker, .eyebrow { color: #C7FF38; }
+h1 { max-width: 720px; font-weight: 950; }
+.hero p { color: #C1CBBF; }
+.btn { border-radius: 12px; }
+.btn-primary { background: #C7FF38; color: #101410; box-shadow: 0 8px 28px #C7FF3817; }
+.btn-outline { border-color: #56634F; color: #F5F7F2; }
+.pitch-card { min-height: 340px; border-radius: 24px; border: 1px solid #506344; background: linear-gradient(145deg, #293D25, #151D14 65%, #101410); box-shadow: 0 24px 70px #00000045; }
+.pitch-card::before { content: ""; position: absolute; inset: 18px; border: 1px solid #C7FF3840; border-radius: 15px; background: repeating-linear-gradient(0deg, transparent 0 39px, #C7FF3812 40px), repeating-linear-gradient(90deg, transparent 0 39px, #C7FF3812 40px); }
+.pitch-card::after { width: 210px; height: 210px; border: 2px solid #C7FF38; right: -70px; top: -65px; opacity: .22; }
+.pitch-top, .pitch-bottom { position: relative; z-index: 1; }
+.pitch-number { font-size: clamp(3.8rem, 8vw, 6rem); }
+.trust-strip { background: #C7FF38; color: #11150C; }
+section { background-color: #101410; }
+.section-head p { color: #A4AEA2; }
+.card { background: linear-gradient(155deg, #1C241B, #171C17); border-color: #343E32; border-radius: 18px; transition: transform .2s ease, border-color .2s ease; }
+.card:hover { transform: translateY(-4px); border-color: #9AC52D; }
+.card-icon { background: #2A3625; border: 1px solid #3B4D30; border-radius: 13px; }
+.card p, .feature p, .note, .form-card > p { color: #A4AEA2; }
+.price { color: #F5F7F2; }
+.soft-section { background: #171D16; }
+.feature { background: #1B221A; border-color: #343E32; border-radius: 16px; }
+.feature-icon { background: #C7FF38; color: #11150C; border-radius: 12px; }
+.booking-copy { background: linear-gradient(150deg, #293D25, #151D14); border: 1px solid #40513A; }
+.form-card { background: #191F19; border-color: #343E32; }
+input, select, textarea { background: #111611; border-color: #3A4538; color: #F5F7F2; border-radius: 10px; }
+input::placeholder, textarea::placeholder { color: #7F8B7C; }
+.form-status { background: #202820; white-space: pre-line; }
+.form-disclaimer { color: #A4AEA2 !important; }
+.schedule-tools { display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin:20px 0; }
+.schedule-tools label { color:#F5F7F2; }
+.schedule-tools select { width:auto; min-width:230px; }
+.schedule-legend { display:flex; align-items:center; gap:7px; color:#A4AEA2; font-size:.85rem; }
+.dot { width:10px; height:10px; border-radius:50%; display:inline-block; margin-left:7px; }
+.dot.available { background:#C7FF38; } .dot.booked { background:#727B70; }
+.schedule-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.slot { text-align:left; background:#191F19; color:#F5F7F2; border:1px solid #343E32; border-radius:15px; padding:16px; cursor:pointer; }
+.slot strong { display:block; margin-bottom:8px; }
+.slot .status { display:inline-flex; align-items:center; gap:6px; font-size:.8rem; font-weight:800; }
+.slot.free { border-color:#5D7B3A; } .slot.free .status { color:#C7FF38; }
+.slot.taken { opacity:.62; cursor:not-allowed; } .slot.taken .status { color:#A4AEA2; }
+.package-select { width:100%; margin-top:16px; }
+.matchup-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-bottom:28px; }
+.matchup-action .btn { margin-top:auto; width:100%; }
+.matchup-board { margin:24px 0; padding:24px; border:1px solid #343E32; border-radius:20px; background:#151B14; }
+.matchup-board-head { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:16px; }
+.matchup-board-head h3 { margin-bottom:0; }
+.demo-label { color:#C7FF38; border:1px solid #52683A; border-radius:999px; padding:7px 10px; font-size:.7rem; font-weight:900; letter-spacing:.08em; }
+.matchup-list { display:grid; gap:10px; }
+.matchup-row { display:grid; grid-template-columns:minmax(0,1fr) auto auto; align-items:center; gap:16px; padding:16px; border:1px solid #343E32; border-radius:14px; background:#1B221A; }
+.matchup-row strong, .matchup-row span:not(.matchup-open), .matchup-row small { display:block; }
+.matchup-row div > span { color:#C7FF38; font-size:.85rem; margin-top:5px; }
+.matchup-row small { color:#A4AEA2; margin-top:5px; }
+.matchup-open { color:#C7FF38; font-size:.78rem; font-weight:850; white-space:nowrap; }
+.matchup-row .btn { padding:10px 12px; font-size:.82rem; }
+.matchup-form-card { margin-top:24px; }
+.dashboard-notice { padding:18px 20px; border:1px solid #647A35; background:#202B19; border-radius:16px; margin-bottom:18px; }
+.dashboard-notice strong { color:#C7FF38; font-size:.78rem; letter-spacing:.1em; }
+.dashboard-notice p { margin:8px 0 0; color:#C4CEC0; line-height:1.6; }
+.dashboard-stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin:18px 0; }
+.dashboard-stat,.dashboard-panel { background:#191F19; border:1px solid #343E32; border-radius:17px; padding:20px; }
+.dashboard-stat span,.dashboard-stat small { display:block; color:#A4AEA2; font-size:.82rem; }
+.dashboard-stat strong { display:block; margin:10px 0 7px; color:#F5F7F2; font-size:clamp(1.1rem,2vw,1.65rem); letter-spacing:-.04em; }
+.dashboard-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px; }
+.dashboard-panel h3 { margin:0; }
+.result-bar { margin:18px 0; }
+.result-bar > div { display:flex; justify-content:space-between; gap:12px; margin-bottom:8px; font-size:.88rem; }
+.result-bar strong { color:#C7FF38; }
+.bar-track { display:block; height:9px; background:#30392D; border-radius:99px; overflow:hidden; }
+.bar-track > span { display:block; height:100%; border-radius:99px; background:#C7FF38; }
+.dashboard-steps { padding-left:22px; margin:18px 0 22px; }
+.dashboard-steps li { padding-left:4px; margin-bottom:15px; }
+.dashboard-steps strong,.dashboard-steps span { display:block; }
+.dashboard-steps span { margin-top:4px; color:#A4AEA2; font-size:.88rem; line-height:1.5; }
+.response-panel { margin-top:16px; }
+.response-table-wrap { overflow-x:auto; }
+.response-table { width:100%; border-collapse:collapse; font-size:.85rem; text-align:left; }
+.response-table th,.response-table td { padding:13px 12px; border-bottom:1px solid #343E32; white-space:nowrap; }
+.response-table th { color:#C7FF38; font-weight:850; }
+@media (max-width:760px) { .matchup-grid { grid-template-columns:1fr; } .matchup-board { padding:16px; } .matchup-row { grid-template-columns:1fr auto; gap:10px; } .matchup-row .matchup-contact { grid-column:1 / -1; width:100%; } .matchup-board-head { align-items:flex-start; } }
+@media (max-width:760px) { .schedule-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .schedule-tools select { width:100%; } }
+@media (max-width:760px) { .dashboard-stats { grid-template-columns:repeat(2,minmax(0,1fr)); } .dashboard-grid { grid-template-columns:1fr; } .dashboard-stat,.dashboard-panel { padding:16px; } }
+footer { background: #0B0E0B; border-top: 1px solid #2A3328; }
+footer p { color: #A4AEA2; }
+@media (max-width:760px) {
+  .hero { background: radial-gradient(ellipse at 80% 28%, #31462A 0%, #172017 36%, #101410 76%); }
+  .pitch-card { min-height: 245px; }
+  .nav { gap: 10px; }
+  .nav-cta { padding: 10px 12px; }
+  .nav-links { gap:8px; }
+  .nav-results { display:inline-block !important; font-size:.75rem !important; padding:9px 10px; }
+}
+</style>
+</body>
+</html>
